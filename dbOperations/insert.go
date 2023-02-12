@@ -1,14 +1,14 @@
 package DbOperations
 
 import (
-	"Task_1/entity"
+	"Task_1/dto"
 	"fmt"
 	"github.com/nedpals/supabase-go"
 )
 
-func InsertSomeData(client *supabase.Client, data *[]entity.Student) {
+func InsertSomeData(client *supabase.Client, data *[]dto.StudentForCreationDto) {
 
-	var results []entity.Student
+	var results []dto.StudentForCreationDto
 	err := client.DB.From("Students").Insert(data).Execute(&results)
 	if err != nil {
 		panic(err)

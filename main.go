@@ -2,7 +2,7 @@ package main
 
 import (
 	"Task_1/dbOperations"
-	"Task_1/entity"
+	"Task_1/dto"
 	supa "github.com/nedpals/supabase-go"
 )
 
@@ -11,7 +11,7 @@ func main() {
 	supaBaseKey := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZHNueHFocGVjdHVhbnN3eXBjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3NjE1MjExMSwiZXhwIjoxOTkxNzI4MTExfQ.m3FAlEegaAFqajDn2zUiiZx6cTQ-_5qNLznm4bO909U"
 	supaBaseClient := supa.CreateClient(supaBaseUrl, supaBaseKey)
 
-	data := &[]entity.Student{
+	data := &[]dto.StudentForCreationDto{
 		{
 			Name:    "Ali",
 			Surname: "Yilmaz",
