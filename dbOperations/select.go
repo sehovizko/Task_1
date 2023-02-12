@@ -7,20 +7,17 @@ import (
 	"github.com/nedpals/supabase-go"
 )
 
-// I used nedpals/supabase-go library for db operations.
-// But I think the library is not efficient for db operations.
-// We can create our own repo methods by connecting to supabase's postqres.
-// The library does not have a good documentation and I could not find
-// features like filtering etc.
-
-func GetAllColumns(client *supabase.Client) {
+func GetAllData(client *supabase.Client) {
 	fmt.Println("##GETTING ALL COLUMNS##")
 	var results []entity.Student
 	err := client.DB.From("Students").Select("*").Execute(&results)
 	if err != nil {
 		panic(err)
 	}
-
+	if len(results) == 0 {
+		fmt.Println("There is no data")
+		return
+	}
 	for _, student := range results {
 		stdJson, err := json.Marshal(&student)
 		if err != nil {
@@ -29,14 +26,17 @@ func GetAllColumns(client *supabase.Client) {
 		fmt.Println(string(stdJson))
 	}
 }
-func GetNames(client *supabase.Client) {
-	fmt.Println("##GETTING NAME COLUMN##")
+func FindById(client *supabase.Client, id string) {
+	fmt.Println("##FINDING DATA FOR ID = ", id, " ##")
 	var results []entity.Student
-	err := client.DB.From("Students").Select("Id,Name").Execute(&results)
+	err := client.DB.From("Students").Select("*").Eq("Id", id).Execute(&results)
 	if err != nil {
 		panic(err)
 	}
-
+	if len(results) == 0 {
+		fmt.Println("Student not found")
+		return
+	}
 	for _, student := range results {
 		stdJson, err := json.Marshal(&student)
 		if err != nil {
@@ -44,15 +44,19 @@ func GetNames(client *supabase.Client) {
 		}
 		fmt.Println(string(stdJson))
 	}
+
 }
-func GetNumbers(client *supabase.Client) {
-	fmt.Println("##GETTING NUMBER COLUMN##")
+func FindByGivenColumn(client *supabase.Client, column string, value string) {
+	fmt.Println("##FINDING DATA FOR COLUMN = ", column, " AND VALUE = ", value, " ##")
 	var results []entity.Student
-	err := client.DB.From("Students").Select("Id,Number").Execute(&results)
+	err := client.DB.From("Students").Select("*").Eq(column, value).Execute(&results)
 	if err != nil {
 		panic(err)
 	}
-
+	if len(results) == 0 {
+		fmt.Println("Student not found")
+		return
+	}
 	for _, student := range results {
 		stdJson, err := json.Marshal(&student)
 		if err != nil {
@@ -60,4 +64,5 @@ func GetNumbers(client *supabase.Client) {
 		}
 		fmt.Println(string(stdJson))
 	}
+
 }
